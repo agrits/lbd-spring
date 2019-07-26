@@ -1,10 +1,14 @@
-package pl.fis.artur.kasza.lbdspring;
+package pl.fis.artur.kasza.lbdspring.component;
 
 import java.time.LocalDate;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+
+import pl.fis.artur.kasza.lbdspring.exception.ShipAlreadyInFleetException;
+import pl.fis.artur.kasza.lbdspring.model.SpaceFleet;
+import pl.fis.artur.kasza.lbdspring.model.Spaceship;
 
 @Component
 public class DataStorage implements ApplicationListener<ApplicationReadyEvent>{

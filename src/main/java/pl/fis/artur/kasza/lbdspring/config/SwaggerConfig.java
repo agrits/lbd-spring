@@ -1,4 +1,4 @@
-package pl.fis.artur.kasza.lbdspring;
+package pl.fis.artur.kasza.lbdspring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

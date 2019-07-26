@@ -1,7 +1,12 @@
-package pl.fis.artur.kasza.lbdspring;
+package pl.fis.artur.kasza.lbdspring.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -11,6 +16,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+import pl.fis.artur.kasza.lbdspring.exception.ResourceNotFoundException;
+import pl.fis.artur.kasza.lbdspring.exception.ShipAlreadyInFleetException;
+import pl.fis.artur.kasza.lbdspring.util.Constants;
 
 
 @JacksonXmlRootElement(localName = "fleet")
@@ -72,6 +81,22 @@ public class SpaceFleet {
 				break;
 			}
 		}
+	}
+
+	public List<Spaceship> getSortedShips(String key, String mode) {
+		Stream<Spaceship> shipsStream = ships.stream();
+		if(key != null && key.contentEquals(Constants.SPEED)) {
+			shipsStream = shipsStream.sorted(Comparator.comparing(Spaceship::getSpeed));
+		}
+		else {
+			shipsStream = shipsStream.sorted(Comparator.comparing(Spaceship::getName));
+		}
+		
+		if(mode != null && mode.contentEquals(Constants.ASCENDING)) {
+			shipsStream = shipsStream.sorted(Collections.reverseOrder());
+		}
+		
+		return shipsStream.collect(Collectors.toList());
 	}
 	
 }
